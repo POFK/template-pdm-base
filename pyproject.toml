@@ -9,6 +9,10 @@ readme = "README.md"
 
 [tool.pdm.scripts]
 template_project_name = "template_project_name.cli:main"
+clean = "sh -c 'rm -rf build dist src/template_project_name/**/*.c src/*.egg-info'" # remove build effect
+
+[tool.pdm.options]
+build = ["--no-sdist"] # TODO Is there a pdm bug? There are different feature when build with and without --no-sdist option. If comment this line, the `.so` builder will not work
 
 [project.scripts]
 template_project_name = "template_project_name.cli:main"
@@ -20,3 +24,20 @@ dev = [
     "ruff>=0.11.6",
     "mypy>=1.15.0",
 ]
+
+[tool.builder-opt]
+#============================================================
+# build python file to so and pack it as wheel file
+# to use this build, you must add the setuptools build system
+# [build-system]
+# requires = ["setuptools", "wheel", "Cython"]
+# build-backend = "setuptools.build_meta"
+
+# add the cli submodule to so builder
+cython_modules_path = [
+    "src/template_project_name/utils", 
+    "src/template_project_name/cli", 
+    "src/template_project_name", # If you want compile the project/__init__.py into "so" format, use this line
+]
+#============================================================
+
