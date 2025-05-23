@@ -32,6 +32,7 @@ for path in pyproj_cfg["cython_modules_path"]:
     core_modules += find_cython_modules(path)
 
 setup(
+    use_scm_version=True,
     ext_modules=cythonize(
         core_modules,
         compiler_directives={

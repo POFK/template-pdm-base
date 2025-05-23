@@ -1,6 +1,7 @@
 [project]
 name = "template_project_name"
-version = "0.1.0"
+#version = "0.0.0"
+dynamic = ["version"]
 description = ""
 authors = []
 dependencies = ["loguru>=0.7.0", "typer>=0.15.2"]
@@ -30,7 +31,7 @@ dev = [
 # build python file to so and pack it as wheel file
 # to use this build, you must add the setuptools build system
 # [build-system]
-# requires = ["setuptools", "wheel", "Cython"]
+# requires = ["setuptools", "wheel", "Cython", "setuptools-scm"]
 # build-backend = "setuptools.build_meta"
 
 # add the cli submodule to so builder
@@ -40,4 +41,13 @@ cython_modules_path = [
 #   "src/template_project_name", # If you want compile the project/__init__.py into "so" format, use this line. It need all sub modules support Cython compile
 ]
 #============================================================
+
+
+[tool.setuptools_scm]
+tag_regex = '^v(\d+\.\d+\.\d+)$'
+fallback_version = "0.1.0"
+
+[tool.pdm.version]
+source = "scm"
+tag_regex = '^v(\d+\.\d+\.\d+)$'
 
