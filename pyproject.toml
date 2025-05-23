@@ -13,7 +13,7 @@ template_project_name = "template_project_name.cli:main"
 clean = "sh -c 'rm -rf build dist src/template_project_name/**/*.c src/*.egg-info'" # remove build effect
 
 [tool.pdm.options]
-build = ["--no-sdist"] # TODO Is there a pdm bug? There are different feature when build with and without --no-sdist option. If comment this line, the `.so` builder will not work
+build = ["--no-sdist", "-v"] # TODO Is there a pdm bug? There are different feature when build with and without --no-sdist option. If comment this line, the `.so` builder will not work
 
 [project.scripts]
 template_project_name = "template_project_name.cli:main"
