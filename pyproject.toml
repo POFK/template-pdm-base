@@ -37,7 +37,7 @@ dev = [
 cython_modules_path = [
     "src/template_project_name/utils", 
     "src/template_project_name/cli", 
-    "src/template_project_name", # If you want compile the project/__init__.py into "so" format, use this line
+#   "src/template_project_name", # If you want compile the project/__init__.py into "so" format, use this line. It need all sub modules support Cython compile
 ]
 #============================================================
 
