@@ -80,7 +80,7 @@ setup(
     ),
     package_dir={"": "src"},
     packages=find_packages(where="src", exclude=core_modules_exclude_py),
-    include_package_data=True,
+    include_package_data=False,
     exclude_package_data={
         "template_project_name": ["*.c", ]
         },
