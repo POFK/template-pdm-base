@@ -12,4 +12,11 @@ also a non-interactive command is:
 pdm init --name <project_name> --dist -n  https://github.com/POFK/template-pdm-base
 ```
 
+# first run after initialization
+```
+pdm update
+detect-secrets scan > .secrets.baseline
 
+git add .
+pre-commit run -a
+```

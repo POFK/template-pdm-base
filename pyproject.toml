@@ -4,16 +4,9 @@ name = "template_project_name"
 dynamic = ["version"]
 description = ""
 authors = []
-dependencies = ["loguru>=0.7.0", "typer>=0.15.2"]
+dependencies = ["loguru>=0.7.0", "typer>=0.15.2", "pre-commit>=4.2.0", "radon>=6.0.1", "pytest-watch>=4.2.0"]
 requires-python = ">=3.12"
 readme = "README.md"
-
-[tool.pdm.scripts]
-template_project_name = "template_project_name.cli:main"
-clean = "sh -c 'rm -rf build dist src/template_project_name/**/*.c src/template_project_name/**/*.so src/*.egg-info'" # remove build effect
-
-[tool.pdm.options]
-build = ["--no-sdist", "-v"] 
 
 [project.scripts]
 template_project_name = "template_project_name.cli:main"
@@ -22,8 +15,12 @@ template_project_name = "template_project_name.cli:main"
 dev = [
     "tox>=4.25.0",
     "pytest>=8.3.5",
-    "ruff>=0.11.6",
+    "ruff>=0.12.0",
     "mypy>=1.15.0",
+    "pytest-watch>=4.2.0",
+    "radon>=5.1.0",
+    "pre-commit>=4.2.0",
+    "detect-secrets>=1.5.0",
 ]
 
 [tool.builder-opt]
@@ -46,6 +43,43 @@ cython_modules_path = [
 [tool.setuptools_scm]
 tag_regex = '^v(\d+\.\d+\.\d+)$'
 fallback_version = "0.1.0"
+
+[tool.ruff]
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.12
+target-version = "py312"
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`) codes by default.
+select = ["E4", "E7", "E9", "F", "E501"]
+ignore = []
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+
+[tool.radon]
+# 设置圈复杂度的阈值，超过10则评级为 C，超过20则评级为 F
+cc_max = "C"
+cc_min = "A"
+# 设置可维护性指数的阈值
+mi_min = "A"
+
+[tool.pdm.scripts]
+template_project_name = "template_project_name.cli:main"
+clean = "sh -c 'rm -rf build dist src/template_project_name/**/*.c src/template_project_name/**/*.so src/*.egg-info'" # remove build effect
+watch = "ptw" # pytest-watch
+lint = "pdm run pre-commit run --all-files"
+
+[tool.pdm.options]
+build = ["--no-sdist", "-v"] 
 
 [tool.pdm.version]
 source = "scm"
