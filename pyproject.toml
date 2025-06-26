@@ -14,13 +14,28 @@ template_project_name = "template_project_name.cli:main"
 [dependency-groups]
 dev = [
     "tox>=4.25.0",
-    "pytest>=8.3.5",
-    "ruff>=0.12.0",
-    "mypy>=1.15.0",
-    "pytest-watch>=4.2.0",
+    "tox-pdm>=0.7.2",
     "radon>=5.1.0",
     "pre-commit>=4.2.0",
     "detect-secrets>=1.5.0",
+]
+
+test = [
+    "pytest>=8.3.5",
+    "pytest-watch>=4.2.0",
+    "pytest-cov>=6.2.1",
+    "pytest-html>=4.1.1",
+    "pytest-xdist>=3.7.0",
+    "pytest-sugar>=1.0.0",
+]
+
+# Linting 相关的依赖
+lint = [
+    "ruff>=0.12.0",
+]
+# 类型检查相关的依赖
+type = [
+    "mypy>=1.15.0",
 ]
 
 [tool.builder-opt]
@@ -71,6 +86,44 @@ cc_max = "C"
 cc_min = "A"
 # 设置可维护性指数的阈值
 mi_min = "A"
+
+[tool.pytest.ini_options]
+# testpaths = tests
+testpaths = ["tests"]
+
+# 将命令行参数移到这里，这是 addopts 的核心用途
+addopts = [
+    "--strict-markers",       # 防止因拼写错误的 marker 导致测试被静默跳过
+    "--strict-config",
+    "--cov",                # 启用代码覆盖率
+    "--cov-append",           # 追加覆盖率数据，对于并行测试或多次运行很有用
+    "--cov-report=term-missing", # 在终端显示覆盖率报告，并高亮未覆盖的行
+    "--html=htmlcov/report.html", # 生成 HTML 格式的测试报告
+    "-n=auto",                # 自动根据 CPU 核心数并行执行测试 (来自 pytest-xdist)
+    "--color=yes",            # 强制输出彩色日志
+]
+
+# 注册自定义 Marker，避免 --strict-markers 报错
+# 这对于分组测试非常有用，例如: @pytest.mark.slow
+markers = [
+    "slow: marks tests as slow-running",
+    "integration: marks integration tests",
+]
+
+# 过滤掉一些无关的警告，保持测试输出干净
+filterwarnings = [
+    "ignore::DeprecationWarning", # 示例：忽略所有弃用警告
+]
+
+[tool.mypy]
+python_version = "3.12"
+disallow_untyped_defs = false
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+
 
 [tool.pdm.scripts]
 template_project_name = "template_project_name.cli:main"

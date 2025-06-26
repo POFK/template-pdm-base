@@ -14,7 +14,7 @@ pdm init --name <project_name> --dist -n  https://github.com/POFK/template-pdm-b
 
 # first run after initialization
 ```
-pdm update
+pdm install
 detect-secrets scan > .secrets.baseline
 
 git add .
