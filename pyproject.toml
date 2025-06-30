@@ -106,9 +106,21 @@ addopts = [
 # 注册自定义 Marker，避免 --strict-markers 报错
 # 这对于分组测试非常有用，例如: @pytest.mark.slow
 markers = [
-    "slow: marks tests as slow-running",
-    "integration: marks integration tests",
+    "stone: 安全网测试。数量少，覆盖小，代表用户使用程序最基本的用法，用于在重构中作为测试的基石",
+    "stable: 重要、基础且稳定的 Api 和组件",
+    "alpha: 重要、基础但在未来可能发生变动的 Api 和组件",
+    "beta: 开发中，很可能剧烈变动或被移除的Api, 且影响范围较 alpha 小",
+    "fast: Run fast and no IO, less resources",
+    "slow: Run slow, need more resources",
+    "gpu: Must run with gpu environment",
+    "doing: doing tag, less than 3 features at a time",
+    "todo: todo tag, less than 10 features at a time",
+    "maybe: maybe tag",
+    "onetime: one-time tests, use it like archive",
+    "deprecated: deprecated api's test",
+    "smoke: Smoke tests for basic functionality, like stone but less important and not running in develop, useful for AI project e.g. small data patch test",
 ]
+
 
 # 过滤掉一些无关的警告，保持测试输出干净
 filterwarnings = [
