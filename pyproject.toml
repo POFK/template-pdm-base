@@ -4,7 +4,7 @@ name = "template_project_name"
 dynamic = ["version"]
 description = ""
 authors = []
-dependencies = ["loguru>=0.7.0", "typer>=0.15.2", "pre-commit>=4.2.0", "radon>=6.0.1", "pytest-watch>=4.2.0"]
+dependencies = ["loguru>=0.7.0", "typer>=0.15.2"]
 requires-python = ">=3.12"
 readme = "README.md"
 
@@ -22,11 +22,12 @@ dev = [
 
 test = [
     "pytest>=8.3.5",
-    "pytest-watch>=4.2.0",
     "pytest-cov>=6.2.1",
     "pytest-html>=4.1.1",
     "pytest-xdist>=3.7.0",
     "pytest-sugar>=1.0.0",
+    "pytest-mock>=3.14.1",
+    "pytest-watcher>=0.4.3",
 ]
 
 # Linting 相关的依赖
@@ -139,9 +140,11 @@ warn_unused_ignores = true
 
 [tool.pdm.scripts]
 template_project_name = "template_project_name.cli:main"
-clean = "sh -c 'rm -rf build dist src/template_project_name/**/*.c src/template_project_name/**/*.so src/*.egg-info'" # remove build effect
-watch = "ptw" # pytest-watch
+clean = "sh -c 'rm -rf build dist src/*.egg-info && find src/template_project_name -type f \\( -name \"*.c\" -o -name \"*.so\" \\) -delete'"
+watch = "ptw . --no-cov -m '(stone or stable or alpha or doing) and (not slow)'  --delay 1.0 --clear --tb=no" # pytest-watch, 运行重要且fast 的测试，每次改动后1.5s 启动测试，并只测试失败用例 (--lf)
+test = "pytest tests --no-cov -m '(stone or stable or alpha)' "
 lint = "pdm run pre-commit run --all-files"
+
 
 [tool.pdm.options]
 build = ["--no-sdist", "-v"] 
